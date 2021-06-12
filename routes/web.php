@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('pockets', [PocketListController::class, 'index']);
+Route::get('pockets', [PocketListController::class, 'index'])->name('pockets');
 Route::get('pocket/{id}/contents', [PocketListController::class, 'contents'])->name('pocket.contents');
 
 

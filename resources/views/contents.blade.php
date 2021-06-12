@@ -1,6 +1,8 @@
 <section>
     <h1>Titles Your Pocket Content</h1>
-    @foreach($pocket_contents as $pocket_content)
+    @forelse($pocket_contents as $pocket_content)
         <p>{{ $pocket_content->url }}</p>
-    @endforeach
+    @empty
+        <p>No Content Found. Please add one.</p>
+    @endforelse
 </section>

@@ -8,12 +8,14 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($pockets as $pocket)
+        @forelse($pockets as $pocket)
         <tr>
             <td>{{$pocket->title}}</td>
             <td><a href="{{ route('pocket.contents', $pocket->id) }}">show</a></td>
         </tr>
-        @endforeach
+        @empty
+            <p>No pocket available. Please add one.</p>
+        @endforelse
         </tbody>
     </table>
 </section>
