@@ -21,9 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-
-Route::get('v1/pockets', [PocketController::class, 'index']);
-Route::post('v1/pockets', [PocketController::class, 'store']);
+Route::apiResource('v1/pockets', 'App\Http\Controllers\PocketController');
 
 Route::post('v1/pockets/{id}/contents', [PocketContentController::class, 'store']);
 Route::get('v1/pockets/{id}/contents', [PocketContentController::class, 'index']);
