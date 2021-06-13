@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Event\ContentCreated;
+use App\Models\PocketData;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Goutte\Client;
@@ -27,11 +28,18 @@ class ScrapeContent
      */
     public function handle(ContentCreated $event)
     {
+        $result = array();
         $client = new Client();
         $crawler = $client->request('GET', $event->url);
-        $crawler->filter('a')->each(function ($node) {
-            echo $node->text()."\n";
+        $result = $crawler->filter('h1, h2')->each(function ($node){
+            return $node->text();
         });
-        //echo $event->url;
+
+        $data_item = json_encode($result);
+
+        $pocketContent = new PocketData([
+            'data' => $data_item,
+        ]);
+        $pocketContent->save();
     }
 }
