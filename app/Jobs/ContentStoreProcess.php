@@ -37,7 +37,7 @@ class ContentStoreProcess implements ShouldQueue
         $result = array();
         $client = new Client();
         $crawler = $client->request('GET', $this->url);
-        $result = $crawler->filter('h1, h2')->each(function ($node){
+        $result = $crawler->filter('h1, img')->each(function ($node){
             return $node->text();
         });
 
