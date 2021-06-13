@@ -46,7 +46,7 @@ class PocketContentController extends Controller
         ]);
         $pocketContent->save();
         event(new ContentCreated($url));
-        return 'seved';
+        return 'saved';
     }
 
     /**

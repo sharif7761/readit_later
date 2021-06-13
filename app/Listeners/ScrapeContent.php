@@ -5,7 +5,8 @@ namespace App\Listeners;
 use App\Event\ContentCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-
+use Goutte\Client;
+use Symfony\Component\HttpClient\HttpClient;
 class ScrapeContent
 {
     /**
@@ -26,6 +27,11 @@ class ScrapeContent
      */
     public function handle(ContentCreated $event)
     {
-        echo $event->url;
+        $client = new Client();
+        $crawler = $client->request('GET', $event->url);
+        $crawler->filter('a')->each(function ($node) {
+            echo $node->text()."\n";
+        });
+        //echo $event->url;
     }
 }
