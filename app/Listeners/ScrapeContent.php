@@ -3,7 +3,9 @@
 namespace App\Listeners;
 
 use App\Event\ContentCreated;
+use App\Jobs\ContentStoreProcess;
 use App\Models\PocketData;
+use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Goutte\Client;
@@ -28,18 +30,7 @@ class ScrapeContent
      */
     public function handle(ContentCreated $event)
     {
-        $result = array();
-        $client = new Client();
-        $crawler = $client->request('GET', $event->url);
-        $result = $crawler->filter('h1, h2')->each(function ($node){
-            return $node->text();
-        });
-
-        $data_item = json_encode($result);
-
-        $pocketContent = new PocketData([
-            'data' => $data_item,
-        ]);
-        $pocketContent->save();
+        $contentStoreJob = (new ContentStoreProcess($event->url));
+        dispatch($contentStoreJob);
     }
 }
