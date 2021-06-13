@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Event\ContentCreated;
 use App\Http\Requests\StorePocketContent;
 use App\Models\Pocket;
 use App\Models\PocketContent;
@@ -38,11 +39,13 @@ class PocketContentController extends Controller
      */
     public function store(StorePocketContent $request, $id)
     {
+        $url = $request->get('url');
         $pocketContent = new PocketContent([
             'pocket_id' => $id,
-            'url' => $request->get('url'),
+            'url' => $url,
         ]);
         $pocketContent->save();
+        event(new ContentCreated($url));
         return 'seved';
     }
 
